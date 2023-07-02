@@ -6,7 +6,7 @@ Dataset is available [here](<https://www.mpi-inf.mpg.de/departments/computer-vis
 
 ### Dependencies
 
-- Python 3.6, PyTroch 0.4
+- Python 3.8, PyTroch 1.13
 - sklearn, scipy, numpy, tqdm
 
 ### Steps to run the program
