@@ -4,7 +4,7 @@ The implementation of "Anchor-based Discriminative Dual Distribution Calibration
 
 ### Model Architecture
 
-![Model Architecture](./figure/pdf.png "Model Architecure")
+![Model Architecture](./figure/arch.png "Model Architecure")
 *AD3C-FGN Architecture Figure from the Paper*
 
 ### Dependencies
