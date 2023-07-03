@@ -499,7 +499,7 @@ for epoch in range(args.nepoch):
         cls_loss = criterion(output, labels)
         # compute loss
         G_cost = (-(criticG_fake + criticG_fake_UD)) + \
-            cls_loss + dis_loss + map_loss
+            cls_loss + dis_loss + 10*map_loss
         G_cost.backward()
         optM.step()
         optG.step()
@@ -534,11 +534,12 @@ for epoch in range(args.nepoch):
     results.append(result)
     netC.train()
 
-    # max_res = max(results)
+    max_res = max(results)
     # print(max_res)
-    # if acc_unseen == max_res:
-    #     torch.save(netG, './models/%s_G_%s.pkl' % (args.version, args.dataset))
-    #     torch.save(netC, './models/%s_cls_%s.pkl' % (args.version, args.dataset))
-    # print('acc on unseen: %.4f, seen: %.4f, h: %.4f, max: %.4f' % (acc_unseen, acc_seen, h, max_res))
+    if acc_unseen == max_res[2]:
+        print('save model......')
+        torch.save(netG, './models/%s_G_%s.pkl' % (args.version, args.dataset))
+        torch.save(netC, './models/%s_cls_%s.pkl' % (args.version, args.dataset))
+        print('acc on unseen: %.4f, seen: %.4f, h: %.4f' % (acc_unseen, acc_seen, h))
     
 print(args.dataset)

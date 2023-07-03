@@ -1,32 +1,26 @@
 # AD3C-FGN
 
-Code for the paper  ["Anchor-based Discriminative Dual Distribution Calibration for Transductive Zero-Shot Learning"]
+The implementation of "Anchor-based Discriminative Dual Distribution Calibration for Transductive Zero-Shot Learning" on Pytorch
 
-Dataset is available [here](<https://www.mpi-inf.mpg.de/departments/computer-vision-and-multimodal-computing/research/zero-shot-learning/zero-shot-learning-the-good-the-bad-and-the-ugly/>), please download and extract it under ./data and make sure the "data_root" variable in config yaml file is correct.
+### Model Architecture
+
+![Model Architecture](./figure/pdf.png "Model Architecure")
+*AD3C-FGN Architecture Figure from the Paper*
 
 ### Dependencies
 
 - Python 3.8, PyTroch 1.13
 - sklearn, scipy, numpy, tqdm
 
-### Steps to run the program
+### Prepare dataset
 
-1. Modify config files as needed.
+Firstly, download datasets from https://datasets.d2.mpi-inf.mpg.de/xian/xlsa17.zip, then edit the 'data_root' and 'dataset' in run.sh to point to your dataset location.
 
-2. Pretrain CVAE, and checkpoints are stored in the directory specified by  "vae_dir" in config file: 
+### Training
+- After training, models will be saved to defined path in `./models`.
+- Training process without any pretrained models.
+    - `sh run.sh`
 
-   ```bash
-   python pretrain_gdan.py --config configs/cub.yml
-   ```
-
-3. Choose which CVAE checkpoint you want to use to initialize the GDAN model and modify the "vae_ckpt" variable in the yaml file. Then we can train GDAN by running:
-
-   ```bash
-   python train_gdan.py --config configs/cub.yml
-   ```
-
-4. Use validation data to  decide which saved checkpoint of GDAN (directory specified by "ckpt_dir" in config yaml file) to be used for testing and run evaluation:
-
-   ```bash
-   python valtest_gdan.py --config configs/cub.yml
-   ```
+### Evaluation
+- Edit 'G_model_path' and 'C_model_path' in test.sh to point to the location of the saved generator and online classifier models, then use the loaded models for evaluation
+    - `sh test.sh`
