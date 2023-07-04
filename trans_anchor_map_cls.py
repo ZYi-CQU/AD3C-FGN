@@ -23,7 +23,6 @@ from collections import Counter
 from sklearn import preprocessing
 from sklearn.cluster import KMeans
 
-# sys.path.append('/home/yangwanli/GAN-DA')
 
 parser = argparse.ArgumentParser()
 
@@ -44,7 +43,7 @@ parser.add_argument('--epoch_da', type=int, default=100,
 # Dataset
 # base info
 parser.add_argument('--log_path', default='./logda.xls')
-parser.add_argument('--data_root', default='/home/yangwanli/data/')
+parser.add_argument('--data_root', default='/home/data/')
 parser.add_argument('--dataset', default='CUB')
 parser.add_argument('--image_embedding', default='res101')
 parser.add_argument('--class_embedding', default='att')
@@ -81,10 +80,12 @@ parser.add_argument('--syn_num', type=int, default=200,
                     help='the number of each class of syn_feature')
 parser.add_argument('--cls_lr', type=float, default=0.001,
                     help='learning rate to train cls')
-parser.add_argument('--gama', type=float, default=0.1,
-                    help='the weight of location')
-parser.add_argument('--delta', type=float, default=0.1,
-                    help='the weight cls inwgan-trans')
+parser.add_argument('--alpha', type=float, default=1,
+                    help='the weight of anchor')
+parser.add_argument('--beta', type=float, default=1,
+                    help='the weight of semantic anchor')
+parser.add_argument('--gamma', type=float, default=1,
+                    help='the weight cls loss')
 
 
 args = parser.parse_args()
@@ -344,22 +345,6 @@ def compute_per_class_acc(true_label, predicted_label, target_classes):
     return acc_per_class
 
 
-# def dist_softmax(fake_res):
-#     res = fake_res[0]
-#     reses = res.expand(data.ntrain_class, args.resSize)
-#     dists = nn.functional.pairwise_distance(reses, anchors, p=2)
-#     dist_soft = nn.functional.log_softmax(-dists,
-#                                           dim=0).reshape(1, data.ntrain_class)
-#     for i in range(1, args.batch_size):
-#         res = fake_res[i]
-#         reses = res.expand(data.ntrain_class, args.resSize)
-#         dists = nn.functional.pairwise_distance(reses, anchors, p=2)
-#         soft = nn.functional.log_softmax(-dists,
-#                                          dim=0).reshape(1, data.ntrain_class)
-#         dist_soft = torch.cat((dist_soft, soft), 0)
-#     return dist_soft
-
-
 def dist_softmax(fake_res,anchors):
     res = fake_res[0]
     reses = res.expand(args.anchors, args.resSize)
@@ -499,7 +484,7 @@ for epoch in range(args.nepoch):
         cls_loss = criterion(output, labels)
         # compute loss
         G_cost = (-(criticG_fake + criticG_fake_UD)) + \
-            cls_loss + dis_loss + 10*map_loss
+            args.gamma * cls_loss + args.alpha * (dis_loss + args.beta * map_loss)
         G_cost.backward()
         optM.step()
         optG.step()
