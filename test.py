@@ -46,7 +46,7 @@ parser.add_argument('--C_model_path', type=str, default="./models/AD3C_cls_CUB.p
 # Dataset
 # base info
 parser.add_argument('--log_path', default='./logda.xls')
-parser.add_argument('--data_root', default='/home/yangwanli/data/')
+parser.add_argument('--data_root', default='/home/data/')
 parser.add_argument('--dataset', default='CUB')
 parser.add_argument('--image_embedding', default='res101')
 parser.add_argument('--class_embedding', default='att')

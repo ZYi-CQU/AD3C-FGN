@@ -14,7 +14,7 @@ The implementation of "Anchor-based Discriminative Dual Distribution Calibration
 
 ### Prepare dataset
 
-Firstly, download datasets from https://datasets.d2.mpi-inf.mpg.de/xian/xlsa17.zip, then edit the 'data_root' and 'dataset' in run.sh to point to your dataset location.
+Firstly, download datasets from https://drive.google.com/drive/folders/141SC24gysjpeXmX8m-VKZFeyJca93I03?usp=drive_link, then edit the 'data_root' and 'dataset' in run.sh to point to your dataset location.
 
 ### Training
 - After training, models will be saved to defined path in `./models`.

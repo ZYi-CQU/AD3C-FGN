@@ -2,7 +2,7 @@ CUDA_VISIBLE_DEVICES=2 python3 ./test.py \
     --cuda \
     --batch_size 256 \
     --nepoch 1000 \
-    --data_root '/data/data/' \
+    --data_root '/data/' \
     --dataset 'CUB' \
     --image_embedding 'res101' \
     --class_embedding 'att' \
